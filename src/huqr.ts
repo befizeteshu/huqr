@@ -1,5 +1,4 @@
 const Joi = require('@hapi/joi');
-// import Joi from '@hapi/joi';
 
 const huChars = /^[\x20-\x7eáíűőüöúóéÁÍŰŐÜÖÚÓÉ]*$/;
 
@@ -81,12 +80,12 @@ const schema = Joi.object({
 
 // the order is important !
 const  props = ['kind', 'version', 'charset', 'bic', 'name', 'iban', 'amount', 'validUntil', 'purpose',
-  'message', 'shopId', 'merchDevId', 'invoiceId', 'customerId', 'credTranId', 'loyaltyId', 'navCheckId'];
+  'message', 'shopId', 'merchDevId', 'invoiceId', 'customerId', 'credTranId', 'loyaltyId', 'navCheckId'] as const;
 
 export default class MNBQrCode {
-  kind?: 'HCT' | 'RTP';
-  version?: '001';
-  charset?: '1';
+  kind?: string;
+  version?: string;
+  charset?: string;
   bic?: string;
   name?: string;
   iban?: string;
@@ -102,8 +101,6 @@ export default class MNBQrCode {
   loyaltyId?: string;
   navCheckId?: string;
 
-  [key: string]: any;
-
   validate() {
     return schema.validate(this);
   }
@@ -113,7 +110,7 @@ export default class MNBQrCode {
   }
 
   read(value: string): boolean {
-    const lines = value.split(/\n/);
+    const lines = value.split('\n');
     if (lines.length !== (props.length + 1)) {
       // there is an LF after the last line so split returns an array with one more element
       return false;

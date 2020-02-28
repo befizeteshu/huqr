@@ -1,4 +1,5 @@
-import Joi from '@hapi/joi';
+const Joi = require('@hapi/joi');
+// import Joi from '@hapi/joi';
 
 const huChars = /^[\x20-\x7eáíűőüöúóéÁÍŰŐÜÖÚÓÉ]*$/;
 

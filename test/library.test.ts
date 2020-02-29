@@ -116,15 +116,10 @@ describe('joi definition test', () => {
   });
   it('purpose validation works', () => {
     const code = getValidInstance();
-    code.purpose = 'ABCD';
+    code.purpose = 'ACCT';
     expectNoError(code);
     code.purpose = undefined;
     expectNoError(code);
-    code.purpose = '12345';
-    expectError(code);
-    code.purpose = '123';
-    expectError(code);
-    // TODO check for allowed values
   });
   it('message validation works', () => {
     const code = getValidInstance();
@@ -242,7 +237,7 @@ describe('read test', () => {
 
 describe('write test', () => {
   it('can write to a string', () => {
-    const input = 'HCT\n001\n1\n12345678901\nTest Elek\nHU16100320000605635300000000\nHUF1500\n20201231235959+2\naaaa\n\n\n\n\n\n\n\n\n';
+    const input = 'HCT\n001\n1\n12345678901\nTest Elek\nHU16100320000605635300000000\nHUF1500\n20201231235959+2\nACCT\n\n\n\n\n\n\n\n\n';
     const code = new MNBQrCode();
     expect(code.read(input)).toBe(true);
     expectNoError(code);

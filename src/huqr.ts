@@ -4,6 +4,7 @@ const IBAN = require('iban');
 import { CustomHelpers, ErrorReport } from '@hapi/joi';
 
 const huChars = /^[\x20-\x7eáíűőüöúóéÁÍŰŐÜÖÚÓÉ]*$/;
+const validPurposeCodes = ['ACCT','ADVA','AGRT','AIRB','ALMY','ANNI','ANTS','AREN','BECH','BENE','BEXP','BOCE','BONU','BUSB','CASH','CBFF','CBTV','CCRD','CDBL','CFEE','CHAR','CLPR','CMDT','COLL','COMC','COMM','COMT','COST','CPYR','CSDB','CSLP','CVCF','DBTC','DCRD','DEPT','DERI','DIVD','DMEQ','DNTS','ELEC','ENRG','ESTX','FERB','FREX','GASB','GDDS','GDSV','GOVI','GOVT','GSCB','GVEA','GVEB','GVEC','GVED','HEDG','HLRP','HLTC','HLTI','HREC','HSPC','HSTX','ICCP','ICRF','IDCP','IHRP','INPC','INSM','INSU','INTC','INTE','INTX','LBRI','LICF','LIFI','LIMA','LOAN','LOAR','LTCF','MDCS','MSVC','NETT','NITX','NOWS','NWCH','NWCM','OFEE','OTHR','OTLC','PADD','PAYR','PENS','PHON','POPE','PPTI','PRCP','PRME','PTSP','RCKE','RCPT','REFU','RENT','RINP','RLWY','ROYA','SALA','SAVG','SCVE','SECU','SSBE','STDY','SUBS','SUPP','TAXS','TELI','TRAD','TREA','TRFD','VATX','VIEW','WEBI','WHLD','WTER'];
 
 function ibancheck(value: string, helpers: CustomHelpers): string | ErrorReport {
   if (!IBAN.isValid(value)) {
@@ -51,9 +52,9 @@ const schema = Joi.object({
     .pattern(/^[0-9]+\+[0-9]$/) // TODO more validation ? valid date, not in past
     .length(16)
     .required(),
-  purpose: Joi // TODO purpose checker ?
+  purpose: Joi
     .string()
-    .pattern(huChars)
+    .valid(...validPurposeCodes)
     .length(4),
   message: Joi
     .string()

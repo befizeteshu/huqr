@@ -1,6 +1,16 @@
 const Joi = require('@hapi/joi');
+const IBAN = require('iban');
+
+import { CustomHelpers, ErrorReport } from '@hapi/joi';
 
 const huChars = /^[\x20-\x7eáíűőüöúóéÁÍŰŐÜÖÚÓÉ]*$/;
+
+function ibancheck(value: string, helpers: CustomHelpers): string | ErrorReport {
+  if (!IBAN.isValid(value)) {
+    return helpers.error('invalid iban');
+  }
+  return value;
+}
 
 const schema = Joi.object({
   kind: Joi
@@ -25,10 +35,11 @@ const schema = Joi.object({
     .pattern(huChars)
     .max(70)
     .required(),
-  iban: Joi           // TODO implement iban checksum
+  iban: Joi
     .string()
     .pattern(/^HU[0-9]+$/, 'iban')
     .length(28)
+    .custom(ibancheck, 'iban check')
     .required(),
   amount: Joi
     .string()

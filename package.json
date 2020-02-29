@@ -1,6 +1,6 @@
 {
   "name": "huqr",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Implementation of the hungarian qr code standard",
   "keywords": [],
   "main": "dist/huqr.umd.js",
@@ -61,7 +61,8 @@
     "typescript": "^3.7.0"
   },
   "dependencies": {
-    "@hapi/joi": "^17.1.0"
+    "@hapi/joi": "^17.1.0",
+    "iban": "0.0.14"
   },
   "jest": {
     "transform": {

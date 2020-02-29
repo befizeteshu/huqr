@@ -7,7 +7,7 @@ function getValidInstance() {
   code.charset = '1';
   code.bic = '12345678901';
   code.name = 'Test Elek';
-  code.iban = 'HU12345678901234567890123456';
+  code.iban = 'HU16100320000605635300000000';
   code.validUntil = '20201231235959+2';
   return code;
 }
@@ -80,13 +80,14 @@ describe('joi definition test', () => {
   });
   it('iban validation works', () => {
     const code = getValidInstance();
-    code.iban = 'HU12345678901234567890123456';
+    code.iban = 'HU16100320000605635300000000';
     expectNoError(code);
     code.iban = undefined;
     expectError(code);
     code.iban = '1234567890';
     expectError(code);
-    // TODO implement iban checksum
+    code.iban = 'HU17100320000605635300000000'; // bad iban checksum
+    expectError(code);
   });
   it('amount validation works', () => {
     const code = getValidInstance();
@@ -217,7 +218,7 @@ describe('joi definition test', () => {
 
 describe('read test', () => {
   it('can read from string', () => {
-    const input = 'HCT\n001\n1\n12345678901\nTest Elek\nHU12345678901234567890123456\nHUF1500\n20201231235959+2\n\n\n\n\n\n\n\n\nTEST\n';
+    const input = 'HCT\n001\n1\n12345678901\nTest Elek\nHU16100320000605635300000000\nHUF1500\n20201231235959+2\n\n\n\n\n\n\n\n\nTEST\n';
     const code = new MNBQrCode();
     expect(code.read(input)).toBe(true);
     expectNoError(code);
@@ -226,13 +227,13 @@ describe('read test', () => {
     expect(code.charset).toEqual('1');
     expect(code.bic).toEqual('12345678901');
     expect(code.name).toEqual('Test Elek');
-    expect(code.iban).toEqual('HU12345678901234567890123456');
+    expect(code.iban).toEqual('HU16100320000605635300000000');
     expect(code.amount).toEqual('HUF1500');
     expect(code.validUntil).toEqual('20201231235959+2');
     expect(code.navCheckId).toEqual('TEST');
   });
   it('no read if number of lines is not 18', () => {
-    const input = 'HCT\n001\n1\n12345678901\nTest Elek\nHU12345678901234567890123456\nHUF1500\n20201231235959+2\n\n\n\n\n\n\n\n\n';
+    const input = 'HCT\n001\n1\n12345678901\nTest Elek\nHU16100320000605635300000000\nHUF1500\n20201231235959+2\n\n\n\n\n\n\n\n\n';
     const code = new MNBQrCode();
     expect(code.read(input)).toBe(false);
     expectError(code);
@@ -241,7 +242,7 @@ describe('read test', () => {
 
 describe('write test', () => {
   it('can write to a string', () => {
-    const input = 'HCT\n001\n1\n12345678901\nTest Elek\nHU12345678901234567890123456\nHUF1500\n20201231235959+2\naaaa\n\n\n\n\n\n\n\n\n';
+    const input = 'HCT\n001\n1\n12345678901\nTest Elek\nHU16100320000605635300000000\nHUF1500\n20201231235959+2\naaaa\n\n\n\n\n\n\n\n\n';
     const code = new MNBQrCode();
     expect(code.read(input)).toBe(true);
     expectNoError(code);

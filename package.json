@@ -62,6 +62,7 @@
   },
   "dependencies": {
     "@hapi/joi": "^17.1.0",
+    "@types/iban": "0.0.30",
     "date-fns": "^2.10.0",
     "date-fns-tz": "^1.0.10",
     "iban": "0.0.14"

@@ -1,8 +1,7 @@
-const Joi = require('@hapi/joi');
-const IBAN = require('iban');
-var parse = require('date-fns/parse');
-var format = require('date-fns-tz/format');
-
+import * as  Joi from '@hapi/joi';
+import * as IBAN from 'iban';
+import { format } from 'date-fns-tz';
+import { parse  } from 'date-fns';
 import { CustomHelpers, ErrorReport } from '@hapi/joi';
 
 const huChars = /^[\x20-\x7eáíűőüöúóéÁÍŰŐÜÖÚÓÉ]*$/;

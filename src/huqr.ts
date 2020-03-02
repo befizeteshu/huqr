@@ -158,6 +158,7 @@ export default class MNBQrCode {
     // TODO check for valid tz, 0-9 acceptable only
    let standardTimeStamp = format(date, 'yyyyMMddHHmmssX'); // timezone is +01
    let tz = standardTimeStamp.substring(16, 17);
+   // TODO X might return +Z ?
    this.validUntil = standardTimeStamp.substring(0, 14) + '+' + tz;
   }
   getFtAmount(): number | undefined {

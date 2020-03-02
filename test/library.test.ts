@@ -221,6 +221,7 @@ describe('joi definition test', () => {
     now.setMilliseconds(0);
     code.setValidUntil(now);
     expect(code.getValidUntil()?.getTime()).toEqual(now.getTime());
+    // TODO check string representation is correct...
   });
   it('amount helpers work', () => {
     const code = getValidInstance();

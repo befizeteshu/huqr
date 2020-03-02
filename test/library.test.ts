@@ -1,5 +1,7 @@
 import MNBQrCode from "../src/huqr";
 
+process.env.TZ = 'Europe/Budapest';
+
 function getValidInstance() {
   const code = new MNBQrCode();
   code.kind = 'HCT';
@@ -60,7 +62,7 @@ describe('joi definition test', () => {
     expectError(code);
     code.bic = '12334567890A';
     expectError(code);
-    code.bic = '123345678901😊';
+    code.bic = '12334567890😊';
     expectError(code);
   });
   it('name validation works', () => {
@@ -120,6 +122,8 @@ describe('joi definition test', () => {
     expectNoError(code);
     code.purpose = undefined;
     expectNoError(code);
+    code.purpose = '1234';
+    expectError(code);
   });
   it('message validation works', () => {
     const code = getValidInstance();
@@ -208,6 +212,26 @@ describe('joi definition test', () => {
     expectError(code);
     code.navCheckId = '❤️';
     expectError(code);
+  });
+  it('validUntil helpers work', () => {
+    const code = getValidInstance();
+    code.validUntil = undefined;
+    expect(code.getValidUntil()).toEqual(undefined);
+    const now = new Date();
+    now.setMilliseconds(0);
+    code.setValidUntil(now);
+    expect(code.getValidUntil()?.getTime()).toEqual(now.getTime());
+  });
+  it('amount helpers work', () => {
+    const code = getValidInstance();
+    code.amount = undefined;
+    expect(code.getFtAmount()).toBe(undefined);
+    code.setFtAmount(1500);
+    expect(code.amount).toBe('HUF1500');
+    expect(code.getFtAmount()).toBe(1500);
+    expect(() => { code.setFtAmount(1500.5); }).toThrowError('invalid amount');
+    expect(() => { code.setFtAmount(-1500); }).toThrowError('invalid amount');
+    expect(() => { code.setFtAmount(1000000000000); }).toThrowError('invalid amount');
   });
 });
 

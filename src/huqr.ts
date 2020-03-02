@@ -1,5 +1,8 @@
 const Joi = require('@hapi/joi');
 const IBAN = require('iban');
+var parse = require('date-fns/parse');
+
+import { format } from 'date-fns-tz';
 
 import { CustomHelpers, ErrorReport } from '@hapi/joi';
 
@@ -143,5 +146,29 @@ export default class MNBQrCode {
     }
     // TODO send warning if full length is over 345 chars
     return result;
+  }
+
+  getValidUntil(): Date | undefined {
+    if (!this.validUntil) return undefined;
+    const standardTimeStamp = this.validUntil.substring(0, 14) + '+0' + this.validUntil.substring(15);
+    const result: Date = parse(standardTimeStamp, 'yyyyMMddHHmmssX', new Date());
+    result.setMilliseconds(0);
+    return result;
+  }
+  setValidUntil(date: Date) {
+    // TODO check for valid tz, 0-9 acceptable only
+   let standardTimeStamp = format(date, 'yyyyMMddHHmmssX'); // timezone is +01
+   let tz = standardTimeStamp.substring(16, 17);
+   this.validUntil = standardTimeStamp.substring(0, 14) + '+' + tz;
+  }
+  getFtAmount(): number | undefined {
+    if (!this.amount) return undefined;
+    return parseInt(this.amount.substr(3), 10);
+  }
+  setFtAmount(amount: number) {
+    if (!Number.isInteger(amount) || amount < 0 || amount > 999999999999) {
+      throw new Error('invalid amount');
+    }
+    this.amount = `HUF${amount}`;
   }
 }

@@ -1,8 +1,7 @@
 const Joi = require('@hapi/joi');
 const IBAN = require('iban');
 var parse = require('date-fns/parse');
-
-import { format } from 'date-fns-tz';
+var format = require('date-fns-tz/format');
 
 import { CustomHelpers, ErrorReport } from '@hapi/joi';
 

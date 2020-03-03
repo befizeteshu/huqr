@@ -21,7 +21,7 @@ function expectNoError(code: MNBQrCode) {
   expect(code.isValid()).toBe(true);
 }
 
-describe('joi definition test', () => {
+describe('basic test', () => {
   it('MNBQrCode is instantiable', () => {
     expect(new MNBQrCode()).toBeInstanceOf(MNBQrCode);
   });
@@ -29,6 +29,9 @@ describe('joi definition test', () => {
     const code = new MNBQrCode();
     expectError(code);
   });
+});
+
+describe('joi definition test', () => {
   it('code validation works', () => {
     const code = getValidInstance();
     code.kind = 'HCT';
@@ -213,6 +216,9 @@ describe('joi definition test', () => {
     code.navCheckId = '❤️';
     expectError(code);
   });
+});
+
+describe('helpers test', () => {
   it('validUntil helpers work', () => {
     const code = getValidInstance();
     code.validUntil = undefined;

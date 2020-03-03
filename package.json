@@ -4,6 +4,7 @@
   "description": "Implementation of the hungarian qr code standard",
   "keywords": [],
   "main": "dist/huqr.umd.js",
+  "browser": "dist/huqr.umd.js",
   "module": "dist/huqr.es5.js",
   "typings": "dist/types/huqr.d.ts",
   "files": [

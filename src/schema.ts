@@ -1,6 +1,6 @@
-const Joi = require('@hapi/joi');
-const IBAN = require('iban');
-import { CustomHelpers, ErrorReport } from '@hapi/joi';
+import IBAN from 'iban';
+import Joi from 'joi';
+import { CustomHelpers, ErrorReport } from 'joi';
 
 const huChars = /^[\x20-\x7eáíűőüöúóéÁÍŰŐÜÖÚÓÉ]*$/;
 const validPurposeCodes = [

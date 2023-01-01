@@ -1,5 +1,5 @@
-const { format } = require('date-fns-tz');
-const { parse } = require('date-fns');
+import { format } from 'date-fns-tz';
+import { parse } from 'date-fns';
 
 import { schema } from './schema';
 
